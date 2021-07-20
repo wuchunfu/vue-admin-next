@@ -108,7 +108,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		name: 'login',
 		component: () => import('/@/views/login/index.vue'),
 		meta: {
-			title: '登陆',
+			title: '登录',
 		},
 	},
 	{
@@ -116,7 +116,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		name: 'notFound',
 		component: () => import('/@/views/error/404.vue'),
 		meta: {
-			title: '找不到此页面',
+			title: 'message.staticRoutes.notFound',
 		},
 	},
 	{
@@ -124,7 +124,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 		name: 'noPower',
 		component: () => import('/@/views/error/401.vue'),
 		meta: {
-			title: '没有权限',
+			title: 'message.staticRoutes.noPower',
 		},
 	},
 ];
