@@ -1,5 +1,6 @@
 @import 'mixins/function.scss';
 @import 'mixins/element-mixins.scss';
+@import 'mixins/mixins.scss';
 
 /* Button 按钮
 ------------------------------- */
@@ -759,7 +760,7 @@
 .el-menu--horizontal > .el-submenu.is-active .el-submenu__title {
 	border-bottom: 3px solid !important;
 	border-bottom-color: set-color(primary);
-	color: set-color(primary);
+	color: set-color(primary) !important;
 }
 .el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
 .el-menu--horizontal .el-menu-item:not(.is-disabled):hover,
@@ -767,7 +768,7 @@
 .el-menu--horizontal > .el-submenu:hover .el-submenu__title,
 .el-menu--horizontal .el-menu .el-menu-item.is-active,
 .el-menu--horizontal .el-menu .el-submenu.is-active > .el-submenu__title {
-	color: set-color(primary);
+	color: set-color(primary) !important;
 }
 .el-menu.el-menu--horizontal {
 	border-bottom: none !important;
@@ -835,12 +836,11 @@
 // 第三方图标字体间距/大小设置
 .el-menu-item .iconfont,
 .el-submenu .iconfont {
-	font-size: 14px !important;
-	display: inline-block;
-	vertical-align: middle;
-	margin-right: 5px;
-	width: 24px;
-	text-align: center;
+	@include generalIcon;
+}
+.el-menu-item .fa,
+.el-submenu .fa {
+	@include generalIcon;
 }
 // element plus 本身字体图标
 .el-submenu [class^='el-icon-'] {

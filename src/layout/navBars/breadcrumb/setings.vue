@@ -356,7 +356,7 @@
 						icon="el-icon-document-copy"
 						type="primary"
 						ref="copyConfigBtnRef"
-						@click="onCopyConfigClick($event.target)"
+						@click="onCopyConfigClick"
 						>{{ $t('message.layout.copyText') }}
 					</el-button>
 				</div>
@@ -366,22 +366,19 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed, ref } from 'vue';
-import { ElMessage } from 'element-plus';
-import ClipboardJS from 'clipboard';
-import { useI18n } from 'vue-i18n';
+import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed } from 'vue';
 import { useStore } from '/@/store/index';
 import { getLightColor } from '/@/utils/theme';
-import Watermark from '/@/utils/wartermark';
 import { verifyAndSpace } from '/@/utils/toolsValidate';
 import { Local } from '/@/utils/storage';
+import Watermark from '/@/utils/wartermark';
+import commonFunction from '/@/utils/commonFunction';
 export default defineComponent({
 	name: 'layoutBreadcrumbSeting',
 	setup() {
-		const { t } = useI18n();
 		const { proxy } = getCurrentInstance() as any;
-		const copyConfigBtnRef = ref();
 		const store = useStore();
+    const { copyText } = commonFunction();
 		// 获取布局配置信息
 		const getThemeConfig = computed(() => {
 			return store.state.themeConfig.themeConfig;
@@ -527,6 +524,8 @@ export default defineComponent({
 				getThemeConfig.value.topBarColor = '#FFFFFF';
 				initLayoutChangeFun();
 			} else if (getThemeConfig.value.layout === 'columns') {
+        // 1.0.11 更新日志
+        getThemeConfig.value.isShowLogo = false;
 				getThemeConfig.value.menuBar = '#FFFFFF';
 				getThemeConfig.value.menuBarColor = '#606266';
 				getThemeConfig.value.topBar = '#ffffff';
@@ -557,10 +556,6 @@ export default defineComponent({
 		// 布局配置弹窗打开
 		const openDrawer = () => {
 			getThemeConfig.value.isDrawer = true;
-			nextTick(() => {
-				// 初始化复制功能，防止点击两次才可以复制
-				onCopyConfigClick(copyConfigBtnRef.value.$el);
-			});
 		};
 		// 触发 store 布局配置更新
 		const setDispatchThemeConfig = () => {
@@ -577,20 +572,11 @@ export default defineComponent({
 			Local.set('themeConfigStyle', document.documentElement.style.cssText);
 		};
 		// 一键复制配置
-		const onCopyConfigClick = (target: any) => {
+		const onCopyConfigClick = () => {
 			let copyThemeConfig = Local.get('themeConfig');
 			copyThemeConfig.isDrawer = false;
-			const clipboard = new ClipboardJS(target, {
-				text: () => JSON.stringify(copyThemeConfig),
-			});
-			clipboard.on('success', () => {
-				getThemeConfig.value.isDrawer = false;
-				ElMessage.success(t('message.layout.copyTextSuccess'));
-				clipboard.destroy();
-			});
-			clipboard.on('error', () => {
-				ElMessage.error(t('message.layout.copyTextError'));
-				clipboard.destroy();
+      copyText(JSON.stringify(copyThemeConfig)).then(() => {
+        getThemeConfig.value.isDrawer = false;
 			});
 		};
 		// 修复防止退出登录再进入界面时，需要刷新样式才生效的问题，初始化布局样式等(登录的时候触发，目前方案)
@@ -668,7 +654,6 @@ export default defineComponent({
 			onClassicSplitMenuChange,
 			onIsBreadcrumbChange,
 			onSortableTagsViewChange,
-			copyConfigBtnRef,
 			onCopyConfigClick,
 		};
 	},

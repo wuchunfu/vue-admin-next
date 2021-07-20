@@ -1,6 +1,6 @@
 {
 	"name": "vue-admin-next",
-	"version": "1.0.8",
+	"version": "1.0.11",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -8,27 +8,25 @@
 	},
 	"dependencies": {
 		"axios": "^0.21.1",
-		"clipboard": "^2.0.8",
 		"echarts": "^5.1.2",
-		"element-plus": "^1.0.2-beta.54",
+		"element-plus": "^1.0.2-beta.55",
 		"mitt": "^3.0.0",
 		"nprogress": "^0.2.0",
 		"screenfull": "^5.1.0",
 		"sortablejs": "^1.14.0",
 		"vue": "^3.1.4",
+		"vue-clipboard3": "^1.0.1",
 		"vue-i18n": "^9.1.4",
 		"vue-router": "^4.0.8",
 		"vuex": "^4.0.1"
 	},
 	"devDependencies": {
-		"@types/axios": "^0.14.0",
-		"@types/clipboard": "^2.0.1",
-		"@types/node": "^16.3.0",
+		"@types/node": "^16.3.1",
 		"@types/nprogress": "^0.2.0",
 		"@types/sortablejs": "^1.10.7",
-		"@typescript-eslint/eslint-plugin": "^4.28.2",
-		"@typescript-eslint/parser": "^4.28.2",
-		"@vitejs/plugin-vue": "^1.2.4",
+		"@typescript-eslint/eslint-plugin": "^4.28.3",
+		"@typescript-eslint/parser": "^4.28.3",
+		"@vitejs/plugin-vue": "^1.2.5",
 		"@vue/compiler-sfc": "^3.1.4",
 		"dotenv": "^10.0.0",
 		"eslint": "^7.30.0",
@@ -37,7 +35,7 @@
 		"sass": "^1.35.2",
 		"sass-loader": "^12.1.0",
 		"typescript": "^4.3.5",
-		"vite": "^2.4.1",
+		"vite": "^2.4.2",
 		"vue-eslint-parser": "^7.8.0"
 	},
 	"browserslist": [

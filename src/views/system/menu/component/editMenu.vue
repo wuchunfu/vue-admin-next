@@ -136,6 +136,7 @@ export default {
 			state.ruleForm.isLink = row.meta.isLink ? 'true' : '';
 			state.ruleForm.menuSort = '';
 			state.ruleForm.meta.title = t(row.meta.title);
+      // 回显时，图标选择器有这个图标才可以回显，菜单中使用了阿里的、element plus的，二者不可共存
 			state.ruleForm.meta.icon = row.meta.icon;
 			state.ruleForm.meta.isHide = row.meta.isHide ? 'true' : 'false';
 			state.ruleForm.meta.isKeepAlive = row.meta.isKeepAlive ? 'true' : 'false';
