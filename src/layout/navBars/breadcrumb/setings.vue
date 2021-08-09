@@ -207,6 +207,12 @@
 						<el-switch v-model="getThemeConfig.isSortableTagsView" @change="onSortableTagsViewChange"></el-switch>
 					</div>
 				</div>
+        <div class="layout-breadcrumb-seting-bar-flex mt15">
+          <div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsShareTagsView') }}</div>
+          <div class="layout-breadcrumb-seting-bar-flex-value">
+            <el-switch v-model="getThemeConfig.isShareTagsView" @change="onShareTagsViewChange"></el-switch>
+          </div>
+        </div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsFooter') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -476,6 +482,11 @@ export default defineComponent({
 			proxy.mittBus.emit('openOrCloseSortable');
 			setLocalThemeConfig();
 		};
+    // 4、界面显示 --> 开启 TagsView 共用
+    const onShareTagsViewChange = () => {
+      proxy.mittBus.emit('openShareTagsView');
+      setLocalThemeConfig();
+    };
 		// 4、界面显示 --> 灰色模式/色弱模式
 		const onAddFilterChange = (attr: string) => {
 			if (attr === 'grayscale') {
@@ -654,6 +665,7 @@ export default defineComponent({
 			onClassicSplitMenuChange,
 			onIsBreadcrumbChange,
 			onSortableTagsViewChange,
+      onShareTagsViewChange,
 			onCopyConfigClick,
 		};
 	},

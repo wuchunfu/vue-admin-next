@@ -1,5 +1,5 @@
 <template>
-	<el-header class="layout-header" :height="setHeaderHeight">
+  <el-header class="layout-header" :height="setHeaderHeight" v-show="!isTagsViewCurrenFull">
 		<NavBarsIndex />
 	</el-header>
 </template>
@@ -19,8 +19,13 @@ export default {
 			if (isTagsview && layout !== 'classic') return '84px';
 			else return '50px';
 		});
+    // 获取卡片全屏信息
+    const isTagsViewCurrenFull = computed(() => {
+      return store.state.tagsViewRoutes.isTagsViewCurrenFull;
+    });
 		return {
 			setHeaderHeight,
+      isTagsViewCurrenFull,
 		};
 	},
 };

@@ -11,7 +11,14 @@
 		>
 			<ul class="el-dropdown-menu">
 				<template v-for="(v, k) in dropdownList">
-					<li class="el-dropdown-menu__item" aria-disabled="false" tabindex="-1" :key="k" v-if="!v.affix" @click="onCurrentContextmenuClick(v.id)">
+          <li
+              class="el-dropdown-menu__item"
+              aria-disabled="false"
+              tabindex="-1"
+              :key="k"
+              v-if="!v.affix"
+              @click="onCurrentContextmenuClick(v.contextMenuClickId)"
+          >
 						<i :class="v.icon"></i>
 						<span>{{ $t(v.txt) }}</span>
 					</li>
@@ -35,30 +42,30 @@ export default defineComponent({
 		const state = reactive({
 			isShow: false,
 			dropdownList: [
-				{ id: 0, txt: 'message.tagsView.refresh', affix: false, icon: 'el-icon-refresh-right' },
-				{ id: 1, txt: 'message.tagsView.close', affix: false, icon: 'el-icon-close' },
-				{ id: 2, txt: 'message.tagsView.closeOther', affix: false, icon: 'el-icon-circle-close' },
-				{ id: 3, txt: 'message.tagsView.closeAll', affix: false, icon: 'el-icon-folder-delete' },
+        { contextMenuClickId: 0, txt: 'message.tagsView.refresh', affix: false, icon: 'el-icon-refresh-right' },
+        { contextMenuClickId: 1, txt: 'message.tagsView.close', affix: false, icon: 'el-icon-close' },
+        { contextMenuClickId: 2, txt: 'message.tagsView.closeOther', affix: false, icon: 'el-icon-circle-close' },
+        { contextMenuClickId: 3, txt: 'message.tagsView.closeAll', affix: false, icon: 'el-icon-folder-delete' },
 				{
-					id: 4,
+          contextMenuClickId: 4,
 					txt: 'message.tagsView.fullscreen',
 					affix: false,
 					icon: 'iconfont icon-fullscreen',
 				},
 			],
-			path: {},
+      item: {},
 		});
 		// 父级传过来的坐标 x,y 值
 		const dropdowns = computed(() => {
 			return props.dropdown;
 		});
 		// 当前项菜单点击
-		const onCurrentContextmenuClick = (id: number) => {
-			emit('currentContextmenuClick', { id, path: state.path });
+    const onCurrentContextmenuClick = (contextMenuClickId: number) => {
+      emit('currentContextmenuClick', Object.assign({}, { contextMenuClickId }, state.item));
 		};
 		// 打开右键菜单：判断是否固定，固定则不显示关闭按钮
 		const openContextmenu = (item: any) => {
-			state.path = item.path;
+			state.item = item;
 			item.meta.isAffix ? (state.dropdownList[1].affix = true) : (state.dropdownList[1].affix = false);
 			closeContextmenu();
 			setTimeout(() => {

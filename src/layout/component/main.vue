@@ -3,7 +3,6 @@
 		<el-scrollbar
 			class="layout-scrollbar"
 			ref="layoutScrollbarRef"
-			v-show="!currentRouteMeta.isLink && !currentRouteMeta.isIframe"
       :style="{
 				minHeight: `calc(100vh - ${headerHeight}`,
 				padding: currentRouteMeta.isLink && currentRouteMeta.isIframe ? 0 : '',

@@ -19,10 +19,6 @@
               </transition>
             </el-tab-pane>
           </el-tabs>
-          <div class="mt10">
-            <el-button type="text" size="small">{{ $t('message.link.one3') }}</el-button>
-            <el-button type="text" size="small">{{ $t('message.link.two4') }}</el-button>
-          </div>
         </div>
         <Scan v-else />
         <div class="login-content-main-sacn" @click="isScan = !isScan">
@@ -120,7 +116,7 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
-      width: 51px;
+      width: 50px;
       height: 50px;
       overflow: hidden;
       cursor: pointer;
@@ -134,19 +130,22 @@ export default {
         border-bottom: 50px solid #ffffff;
         border-right: 50px solid transparent;
         z-index: 2;
+        top: 0;
+        right: 0;
       }
       &:hover {
         opacity: 1;
         transition: all ease 0.3s;
+        color: var(--color-primary);
       }
       i {
         content: '';
-        width: 50px;
+        width: 48px;
         height: 50px;
         position: absolute;
-        top: -2px;
+        top: 0px;
         right: 0px;
-        font-size: 50px;
+        font-size: 47px;
         z-index: 1;
       }
     }
