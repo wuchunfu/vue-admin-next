@@ -1,4 +1,3 @@
-
 *.sh
 node_modules
 lib
@@ -10,9 +9,21 @@ lib
 .idea
 dist
 mock
-public
 bin
 build
 config
 index.html
+# 忽略src/assets目录下文件的语法检查
 src/assets
+# 忽略build目录下类型为js的文件的语法检查
+build/*.js
+# 忽略build目录下类型为ts的文件的语法检查
+build/*.ts
+# 忽略public目录下文件的语法检查
+public
+# 忽略当前目录下为js的文件的语法检查
+*.js
+# 忽略当前目录下为ts的文件的语法检查
+*.ts
+# 忽略当前目录下为vue的文件的语法检查
+*.vue

@@ -5,6 +5,8 @@ export interface ViteEnv {
 	VITE_PORT: number;
 	VITE_OPEN: boolean;
 	VITE_PUBLIC_PATH: string;
+	VITE_DROP_CONSOLE: boolean;
+	VITE_USE_MOCK: boolean;
 }
 
 /**

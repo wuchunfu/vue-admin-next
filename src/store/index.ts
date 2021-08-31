@@ -1,6 +1,6 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import { RootStateTypes } from '/@/store/interface/index';
+import { RootStateTypes } from '/@/store/interface';
 
 // Vite supports importing multiple modules from the file system using the special import.meta.glob function
 // see https://cn.vitejs.dev/guide/features.html#glob-import

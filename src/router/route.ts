@@ -46,6 +46,21 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 				},
 			},
 			{
+				path: '/tableList',
+				name: 'tableList',
+				component: () => import('/@/views/table/index.vue'),
+				meta: {
+					title: 'message.router.pagesTree',
+					isLink: '',
+					isHide: false,
+					isKeepAlive: true,
+					isAffix: true,
+					isIframe: false,
+					auth: ['admin', 'test'],
+					icon: 'iconfont icon-shouye',
+				},
+			},
+			{
 				path: '/system',
 				name: 'system',
 				component: () => import('/@/layout/routerView/parent.vue'),
