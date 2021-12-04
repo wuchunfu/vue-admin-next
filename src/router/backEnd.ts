@@ -23,22 +23,22 @@ const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...lay
  * @method setFilterMenuAndCacheTagsViewRoutes 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
  */
 export async function initBackEndControlRoutes() {
-	// 界面 loading 动画开始执行
-	if (window.nextLoading === undefined) NextLoading.start();
-	// 无 token 停止执行下一步
-	if (!Session.get('token')) return false;
-	// 触发初始化用户信息
-	store.dispatch('userInfos/setUserInfos');
-	// 获取路由菜单数据
-	const res = await getBackEndControlRoutes();
-	// 存储接口原始路由（未处理component），根据需求选择使用
-	store.dispatch('requestOldRoutes/setBackEndControlRoutes', JSON.parse(JSON.stringify(res.data)));
-	// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-	dynamicRoutes[0].children = await backEndComponent(res.data);
-	// 添加动态路由
-	await setAddRoute();
-	// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
-	setFilterMenuAndCacheTagsViewRoutes();
+  // 界面 loading 动画开始执行
+  if (window.nextLoading === undefined) NextLoading.start();
+  // 无 token 停止执行下一步
+  if (!Session.get('token')) return false;
+  // 触发初始化用户信息
+  store.dispatch('userInfos/setUserInfos');
+  // 获取路由菜单数据
+  const res = await getBackEndControlRoutes();
+  // 存储接口原始路由（未处理component），根据需求选择使用
+  store.dispatch('requestOldRoutes/setBackEndControlRoutes', JSON.parse(JSON.stringify(res.data)));
+  // 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
+  dynamicRoutes[0].children = await backEndComponent(res.data);
+  // 添加动态路由
+  await setAddRoute();
+  // 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+  setFilterMenuAndCacheTagsViewRoutes();
 }
 
 /**
@@ -47,12 +47,12 @@ export async function initBackEndControlRoutes() {
  * @returns 返回后端路由菜单数据
  */
 export function getBackEndControlRoutes() {
-	// 模拟 admin 与 test
-	const auth = store.state.userInfos.userInfos.authPageList[0];
-	// 管理员 admin
-	if (auth === 'admin') return getMenuAdmin();
-	// 其它用户 test
-	else return getMenuTest();
+  // 模拟 admin 与 test
+  const auth = store.state.userInfos.userInfos.roles[0];
+  // 管理员 admin
+  if (auth === 'admin') return getMenuAdmin();
+  // 其它用户 test
+  else return getMenuTest();
 }
 
 /**
@@ -61,7 +61,7 @@ export function getBackEndControlRoutes() {
  * @description 路径：/src/views/system/menu/component/addMenu.vue
  */
 export function setBackEndControlRefreshRoutes() {
-	getBackEndControlRoutes();
+  getBackEndControlRoutes();
 }
 
 /**
@@ -70,12 +70,12 @@ export function setBackEndControlRefreshRoutes() {
  * @returns 返回处理成函数后的 component
  */
 export function backEndComponent(routes: any) {
-	if (!routes) return;
-	return routes.map((item: any) => {
-		if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
-		item.children && backEndComponent(item.children);
-		return item;
-	});
+  if (!routes) return;
+  return routes.map((item: any) => {
+    if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
+    item.children && backEndComponent(item.children);
+    return item;
+  });
 }
 
 /**
@@ -85,16 +85,16 @@ export function backEndComponent(routes: any) {
  * @returns 返回处理成函数后的 component
  */
 export function dynamicImport(dynamicViewsModules: Record<string, Function>, component: string) {
-	const keys = Object.keys(dynamicViewsModules);
-	const matchKeys = keys.filter((key) => {
-		const k = key.replace(/..\/views|../, '');
-		return k.startsWith(`${component}`) || k.startsWith(`/${component}`);
-	});
-	if (matchKeys?.length === 1) {
-		const matchKey = matchKeys[0];
-		return dynamicViewsModules[matchKey];
-	}
-	if (matchKeys?.length > 1) {
-		return false;
-	}
+  const keys = Object.keys(dynamicViewsModules);
+  const matchKeys = keys.filter((key) => {
+    const k = key.replace(/..\/views|../, '');
+    return k.startsWith(`${ component }`) || k.startsWith(`/${ component }`);
+  });
+  if (matchKeys?.length === 1) {
+    const matchKey = matchKeys[0];
+    return dynamicViewsModules[matchKey];
+  }
+  if (matchKeys?.length > 1) {
+    return false;
+  }
 }

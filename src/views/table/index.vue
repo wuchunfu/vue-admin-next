@@ -32,8 +32,27 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleQuery"
+        >
+          <el-icon>
+            <elementSearch/>
+          </el-icon>
+          搜索
+        </el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          size="mini"
+          @click="resetQuery"
+        >
+          <el-icon>
+            <elementRefresh/>
+          </el-icon>
+          重置
+        </el-button>
       </el-form-item>
     </el-form>
 
@@ -42,10 +61,12 @@
         <el-button
           type="primary"
           plain
-          icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
         >
+          <el-icon>
+            <elementFolderAdd/>
+          </el-icon>
           新增
         </el-button>
       </el-col>
@@ -53,11 +74,13 @@
         <el-button
           type="success"
           plain
-          icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
         >
+          <el-icon>
+            <elementEdit/>
+          </el-icon>
           修改
         </el-button>
       </el-col>
@@ -65,11 +88,13 @@
         <el-button
           type="danger"
           plain
-          icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
         >
+          <el-icon>
+            <elementDelete/>
+          </el-icon>
           批量删除
         </el-button>
       </el-col>
@@ -185,9 +210,9 @@
 </template>
 
 <script lang="ts">
-import {onMounted, reactive, ref, toRefs} from 'vue';
-import {deleteById, getById, getList, save, update} from "/@/api/table";
-import {ElMessageBox, ElNotification} from 'element-plus';
+import { onMounted, reactive, ref, toRefs } from 'vue';
+import { deleteById, getById, getList, save, update } from "/@/api/table";
+import { ElMessageBox, ElNotification } from 'element-plus';
 
 export default {
   name: 'tableList',
@@ -229,7 +254,7 @@ export default {
       // 表单校验
       rules: {
         name: [
-          {required: true, message: "名称不能为空", trigger: "blur"}
+          { required: true, message: "名称不能为空", trigger: "blur" }
         ]
       }
     });
@@ -277,11 +302,11 @@ export default {
     }
 
     const handleSizeChange = (val: any) => {
-      console.log(`每页 ${val} 条`)
+      console.log(`每页 ${ val } 条`)
       dataList.pageSize = val
     }
     const handleCurrentChange = (val: any) => {
-      console.log(`当前页: ${val}`)
+      console.log(`当前页: ${ val }`)
       dataList.page = val
     }
 
@@ -329,8 +354,8 @@ export default {
     }
 
     // 多选框选中数据
-    const handleSelectionChange = (selection: array) => {
-      dataList.ids = selection.map((item: number) => item.id)
+    const handleSelectionChange = (selection: any) => {
+      dataList.ids = selection.map((item: any) => item.id)
       dataList.single = selection.length != 1
       dataList.multiple = !selection.length
     }
@@ -340,7 +365,7 @@ export default {
       dataList.typeFormRef?.validate((valid: boolean) => {
         if (valid) {
           if (dataList.form.id != undefined) {
-            update(dataList.form).then(res => {
+            update(dataList.form).then((res: any) => {
               // console.log(res)
               if (res.code === 200) {
                 ElNotification({
@@ -365,7 +390,7 @@ export default {
               dataList.open = false;
             });
           } else {
-            save(dataList.form).then(res => {
+            save(dataList.form).then((res: any) => {
               if (res.code === 200) {
                 ElNotification({
                   type: 'success',
@@ -404,7 +429,7 @@ export default {
     const handleUpdate = (row: any) => {
       reset();
       const rowId = dataList.ids.length !== 0 ? dataList.ids : row.id;
-      getById(rowId).then(res => {
+      getById(rowId).then((res: any) => {
         // console.log(res)
         if (res.code === 200) {
           dataList.form = res.data.list;
@@ -422,7 +447,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(() => {
-        deleteById(ids).then(res => {
+        deleteById(ids).then((res: any) => {
           // console.log(res)
           if (res.code === 200) {
             getDataList();
