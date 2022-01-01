@@ -22,7 +22,11 @@
                    v-if="!isActive(v) && getThemeConfig.isTagsviewIcon"/>
           <span>{{ $t(v.meta.title) }}</span>
           <template v-if="isActive(v)">
-            <SvgIcon name="elementRefreshRight" class="ml5" @click.stop="refreshCurrentTagsView($route.fullPath)"/>
+            <SvgIcon
+              name="elementRefreshRight"
+              class="ml5 layout-navbars-tagsview-ul-li-refresh"
+              @click.stop="refreshCurrentTagsView($route.fullPath)"
+            />
             <SvgIcon
               name="elementClose"
               class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
@@ -63,6 +67,7 @@ import { ElMessage } from 'element-plus';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { isObjectValueEqual } from '/@/utils/arrayOperation';
+import other from '/@/utils/other';
 import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
 
 export default {
@@ -415,10 +420,10 @@ export default {
       });
     };
     // 设置 tagsView 可以进行拖拽
-    const initSortable = () => {
+    const initSortable = async () => {
       const el = document.querySelector('.layout-navbars-tagsview-ul') as HTMLElement;
       if (!el) return false;
-      state.sortable && state.sortable.destroy();
+      state.sortable.el && state.sortable.destroy();
       state.sortable = Sortable.create(el, {
         animation: 300,
         dataIdAttr: 'data-name',
@@ -435,11 +440,9 @@ export default {
       });
     };
     // 拖动问题，https://gitee.com/lyt-top/vue-next-admin/issues/I3ZRRI
-    const onSortableResize = () => {
-      const clientWidth = document.body.clientWidth;
-      if (clientWidth < 1000) getThemeConfig.value.isSortableTagsView = false;
-      else getThemeConfig.value.isSortableTagsView = true;
-      initSortable();
+    const onSortableResize = async () => {
+      await initSortable();
+      if (other.isMobile()) state.sortable.el && state.sortable.destroy();
     };
     // 页面加载前
     onBeforeMount(() => {
@@ -690,6 +693,39 @@ export default {
     .is-active {
       background: none !important;
       color: var(--color-primary) !important;
+    }
+  }
+
+  // 风格5
+  .tags-style-five {
+    align-items: flex-end;
+    .tags-style-five-svg {
+      -webkit-mask-box-image: url("data:image/svg+xml,%3Csvg width='68' height='34' viewBox='0 0 68 34' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='m27,0c-7.99582,0 -11.95105,0.00205 -12,12l0,6c0,8.284 -0.48549,16.49691 -8.76949,16.49691l54.37857,-0.11145c-8.284,0 -8.60908,-8.10146 -8.60908,-16.38546l0,-6c0.11145,-12.08445 -4.38441,-12 -12,-12l-13,0z' fill='%23409eff'/%3E%3C/svg%3E")
+      12 27 15;
+    }
+    .layout-navbars-tagsview-ul-li {
+      padding: 0 5px;
+      border-width: 15px 27px 15px;
+      border-style: solid;
+      border-color: transparent;
+      margin: 0 -15px;
+      .layout-icon-active,
+      .layout-navbars-tagsview-ul-li-iconfont,
+      .layout-navbars-tagsview-ul-li-refresh {
+        display: none;
+      }
+      .layout-icon-three {
+        display: block;
+      }
+      &:hover {
+        @extend .tags-style-five-svg;
+        background: var(--color-primary-light-9);
+      }
+    }
+    .is-active {
+      @extend .tags-style-five-svg;
+      background: var(--color-primary) !important;
+      z-index: 1;
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <el-form class="login-content-form">
-    <el-form-item>
+    <el-form-item class="login-animation-one">
       <el-input
         type="text"
         :placeholder="$t('message.mobile.placeholder1')"
@@ -13,7 +13,7 @@
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item>
+    <el-form-item class="login-animation-two">
       <el-row :gutter="15">
         <el-col :span="16">
           <el-input
@@ -36,7 +36,7 @@
         </el-col>
       </el-row>
     </el-form-item>
-    <el-form-item>
+    <el-form-item class="login-animation-three">
       <el-button type="primary" class="login-content-submit" round>
         <span>{{ $t('message.mobile.btnText') }}</span>
       </el-button>
@@ -66,7 +66,29 @@ export default defineComponent({
 <style scoped lang="scss">
 .login-content-form {
   margin-top: 20px;
-
+  .login-animation-one,
+  .login-animation-two,
+  .login-animation-three,
+  .login-animation-four,
+  .login-animation-five {
+    opacity: 0;
+    animation-name: error-num;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+  }
+  .login-animation-one {
+    animation-delay: 0.1s;
+  }
+  .login-animation-two {
+    animation-delay: 0.2s;
+  }
+  .login-animation-three {
+    animation-delay: 0.3s;
+    margin-bottom: 5px;
+  }
+  .login-animation-four {
+    animation-delay: 0.4s;
+  }
   .login-content-code {
     width: 100%;
     padding: 0;

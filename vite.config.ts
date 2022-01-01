@@ -49,6 +49,13 @@ export default ({command}: ConfigEnv): UserConfigExport => {
             // Turning off brotliSize display can slightly reduce packaging time
             brotliSize: false,
             chunkSizeWarningLimit: 2000,
+            rollupOptions: {
+              output: {
+                entryFileNames: `assets/[name].${new Date().getTime()}.js`,
+                chunkFileNames: `assets/[name].${new Date().getTime()}.js`,
+                assetFileNames: `assets/[name].${new Date().getTime()}.[ext]`,
+              },
+            },
         },
         optimizeDeps: {
             include: [
@@ -56,6 +63,22 @@ export default ({command}: ConfigEnv): UserConfigExport => {
                 'element-plus/lib/locale/lang/en',
                 'element-plus/lib/locale/lang/zh-tw'
             ],
+        },
+        css: {
+          postcss: {
+            plugins: [
+              {
+                postcssPlugin: 'internal:charset-removal',
+                AtRule: {
+                  charset: (atRule) => {
+                    if (atRule.name === 'charset') {
+                      atRule.remove();
+                    }
+                  },
+                },
+              },
+            ],
+          },
         },
         define: {
             __VUE_I18N_LEGACY_API__: JSON.stringify(false),

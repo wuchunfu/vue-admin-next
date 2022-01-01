@@ -221,10 +221,10 @@
             <el-switch v-model="getThemeConfig.isCacheTagsView" @change="setLocalThemeConfig"></el-switch>
           </div>
         </div>
-        <div class="layout-breadcrumb-seting-bar-flex mt15">
+        <div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: isMobile ? 0.5 : 1 }">
           <div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsSortableTagsView') }}</div>
           <div class="layout-breadcrumb-seting-bar-flex-value">
-            <el-switch v-model="getThemeConfig.isSortableTagsView" @change="onSortableTagsViewChange"></el-switch>
+            <el-switch v-model="getThemeConfig.isSortableTagsView" :disabled="isMobile ? true : false" @change="onSortableTagsViewChange"></el-switch>
           </div>
         </div>
         <div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -282,6 +282,7 @@
               <el-option label="风格2" value="tags-style-two"></el-option>
               <el-option label="风格3" value="tags-style-three"></el-option>
               <el-option label="风格4" value="tags-style-four"></el-option>
+              <el-option label="风格5" value="tags-style-five"></el-option>
             </el-select>
           </div>
         </div>
@@ -412,20 +413,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, nextTick, onMounted, onUnmounted } from 'vue';
+import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store/index';
 import { getLightColor } from '/@/utils/theme';
 import { verifyAndSpace } from '/@/utils/toolsValidate';
 import { Local } from '/@/utils/storage';
 import Watermark from '/@/utils/wartermark';
 import commonFunction from '/@/utils/commonFunction';
-
+import other from '/@/utils/other';
 export default defineComponent({
   name: 'layoutBreadcrumbSeting',
   setup() {
     const { proxy } = getCurrentInstance() as any;
     const store = useStore();
     const { copyText } = commonFunction();
+    const state = reactive({
+      isMobile: false,
+    });
     // 获取布局配置信息
     const getThemeConfig: any = computed(() => {
       return store.state.themeConfig.themeConfig;
@@ -645,6 +649,7 @@ export default defineComponent({
           getThemeConfig.value.isDrawer = false;
           initLayoutChangeFun();
           onMenuBarHighlightChange();
+          state.isMobile = other.isMobile();
         });
         setTimeout(() => {
           // 修复防止退出登录再进入界面时，需要刷新样式才生效的问题，初始化布局样式等(登录的时候触发，目前方案)
@@ -693,6 +698,7 @@ export default defineComponent({
       onShareTagsViewChange,
       onCopyConfigClick,
       onResetConfigClick,
+      ...toRefs(state),
     };
   },
 });

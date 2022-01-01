@@ -63,9 +63,7 @@ export const lazyImg = (el: any, arr: any) => {
  * 全局组件大小
  * @returns 返回 `window.localStorage` 中读取的缓存值 `globalComponentSize`
  */
-export function globalComponentSize() {
-  return Local.get('themeConfig')?.globalComponentSize;
-}
+export const globalComponentSize: string = Local.get('themeConfig')?.globalComponentSize || store.state.themeConfig.themeConfig?.globalComponentSize;
 
 /**
  * 对象深克隆
@@ -90,12 +88,28 @@ export function deepClone(obj: any) {
 }
 
 /**
+ * 判断是否是移动端
+ */
+export function isMobile() {
+  if (
+    navigator.userAgent.match(
+      /('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i
+    )
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标
  * @method useTitle 设置浏览器标题国际化
  * @method lazyImg 图片懒加载
  * @method globalComponentSize element plus 全局组件大小
  * @method deepClone 对象深克隆
+ * @method isMobile 判断是否是移动端
  */
 const other = {
   elSvg: (app: App) => {
@@ -107,11 +121,12 @@ const other = {
   lazyImg: (el: any, arr: any) => {
     lazyImg(el, arr);
   },
-  globalComponentSize: () => {
-    globalComponentSize();
-  },
+  globalComponentSize,
   deepClone: (obj: any) => {
     deepClone(obj);
+  },
+  isMobile: () => {
+    return isMobile();
   },
 };
 
